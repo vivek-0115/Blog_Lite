@@ -5,6 +5,8 @@ node_modules
 
 # local env files
 venv
+__pycache__
+instance
 .env.local
 .env.*.local
 
