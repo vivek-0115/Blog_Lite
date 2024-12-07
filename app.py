@@ -1,8 +1,11 @@
 from flask import Flask
-from Backend.config import LocalDevelopmentConfig
 from flask_security import SQLAlchemyUserDatastore, Security, hash_password,auth_required
-from Backend.create_initial_data import create_data
+from flask_cors import CORS
 
+# Imports from Backends
+from Backend.config import LocalDevelopmentConfig
+from Backend.create_initial_data import create_data
+from Backend.resourceApi import api
 from Backend.models import *
 
 def createApp():
@@ -10,7 +13,9 @@ def createApp():
     app.config.from_object(LocalDevelopmentConfig)
     datastore=SQLAlchemyUserDatastore(db, User, Role)
     app.security=Security(app, datastore, register_blueprint=False)
+    CORS(app)
     db.init_app(app)
+    api.init_app(app)
     app.app_context().push()
     return app
 
